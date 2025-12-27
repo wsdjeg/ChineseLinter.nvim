@@ -1,4 +1,4 @@
-# ChineseLinter.nvim
+# ChineseLinter.nvim [WIP]
 
 > 中文文档语言规范检查工具
 
