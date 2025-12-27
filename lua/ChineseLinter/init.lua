@@ -150,7 +150,7 @@ local rules = {
         },
         {
             '存在不应出现在行尾的标点',
-            '[､,\\/([【{‘“、，／《『（［【｛' .. '$',
+            '[､,\\/([【{‘“、，／《『（［【｛]' .. '$',
         },
     },
     E020 = {
@@ -172,15 +172,19 @@ local rules = {
 local function find_errors(line, rule)
     local errors = {}
     for _, r in ipairs(rule) do
-        local re = vim.regex(r[2])
+        local ok, re = pcall(vim.regex, r[2])
 
-        local col = re:match_str(line)
+        if ok then
+            local col = re:match_str(line)
 
-        if col then
-            table.insert(errors, {
-                col = col,
-                text = r[1],
-            })
+            if col then
+                table.insert(errors, {
+                    col = col,
+                    text = r[1],
+                })
+            end
+        else
+            vim.notify(r[1])
         end
     end
     return errors
