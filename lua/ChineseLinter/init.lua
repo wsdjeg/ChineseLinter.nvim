@@ -2,7 +2,8 @@ local M = {}
 
 local ignored_errors = {}
 
-local chinese_punctuation = '[\\u2010-\\u201f\\u2026\\uff01-\\uff0f\\uff1a-\\uff1f\\uff3b-\\uff40\\uff5b-\\uff5e]'
+local chinese_punctuation =
+    '[\\u2010-\\u201f\\u2026\\uff01-\\uff0f\\uff1a-\\uff1f\\uff3b-\\uff40\\uff5b-\\uff5e]'
 
 local punctuation_en = '[､,:;?!-]'
 
@@ -54,9 +55,9 @@ local rules = {
             chinese_punctuation .. '\\zs' .. blank .. '\\+',
         },
     },
-    --   'E005' : [
-    --                 ['行尾有空格'                          , s:blank . '\+$'],
-    --            ],
+    E005 = {
+        { '行尾有空格', blank .. '\\+$' },
+    },
     --   'E006' : [
     --                 ['数字和单位之间有空格'                , s:numbers . '\zs' . s:blank . '\+\ze' . s:symbol],
     --            ],
