@@ -22,6 +22,14 @@ local rules = {
 		regex = chars_cn .. punctuation_en,
 		desc = "中文字符后存在英文标点",
 	},
+	E002 = {
+		enable = true,
+		regex = {
+			chars_cn .. chars_en,
+			chars_en .. chars_cn,
+		},
+		desc = "中英文之间没有空格",
+	},
 }
 
 local function find_errors(line, rule)
