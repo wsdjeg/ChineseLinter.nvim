@@ -184,7 +184,7 @@ local function find_errors(line, rule)
                 })
             end
         else
-            vim.notify(r[1])
+            vim.notify(string.format('%s regex is error', r[1]))
         end
     end
     return errors
