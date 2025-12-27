@@ -20,7 +20,6 @@ require("plug").add({ {
 :CheckChinese
 ```
 
-
 ## 错误代码
 
 | 代码   | 描述                            |
@@ -49,14 +48,14 @@ require("plug").add({ {
 
 ## 配置
 
-如果需要忽略某些错误，可以将错误代码加入选项：`g:chinese_linter_disabled_nr`
+如果需要忽略某些错误，可以将错误代码加入 `ignored_errors`
 
-```vim
-let g:chinese_linter_disabled_nr = ['E002', 'E005']
+```lua
+require('ChineseLinter').setup({
+    ignored_errors = { 'E013' },
+})
 ```
 
 ## 参考指南：
 
 - [中文文案排版指北（简体中文版）](https://github.com/mzlogin/chinese-copywriting-guidelines)
-
-
