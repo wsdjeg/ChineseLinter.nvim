@@ -190,11 +190,38 @@ local function find_errors(line, rule)
     return errors
 end
 
+local code_block_flag = {
+    markdown = {
+        from = '^```',
+        to = '^```',
+    },
+}
+
+local block
+
 function M.check()
     local bufnr = vim.api.nvim_get_current_buf()
+    local ft = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
+    if code_block_flag[ft] then
+        block = {
+            from = vim.regex(code_block_flag[ft].from),
+            to = vim.regex(code_block_flag[ft].to),
+        }
+    else
+        block = nil
+    end
     local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
     local lint_results = {}
     for nr, line in ipairs(lines) do
+        if block and not block.is_code and block.from:match_str(line) then
+            block.is_code = true
+            goto flag
+        elseif block and block.is_code and block.to:match_str(line) then
+            block.is_code = false
+            goto flag
+        elseif block and block.is_code then
+            goto flag
+        end
         for err, rule in pairs(rules) do
             if not vim.tbl_contains(ignored_errors, err) then
                 local errors = find_errors(line, rule)
@@ -212,6 +239,7 @@ function M.check()
                 end
             end
         end
+        ::flag::
     end
 
     vim.fn.setqflist(lint_results)
