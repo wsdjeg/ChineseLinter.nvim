@@ -2,8 +2,6 @@ local M = {}
 
 local log = require('logger').derive('cnlint')
 
-log.info('module is loaded')
-
 local ignored_errors = {}
 
 local chinese_punctuation =
@@ -204,7 +202,6 @@ local code_block_flag = {
 local block
 
 function M.check()
-    log.info('check function is called')
     local bufnr = vim.api.nvim_get_current_buf()
     local ft = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
     if code_block_flag[ft] then
@@ -257,7 +254,6 @@ function M.check()
 end
 
 function M.setup(opt)
-    log.info('setup function is called')
     opt = opt or {}
 
     if type(opt) ~= 'table' then
